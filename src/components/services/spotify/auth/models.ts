@@ -1,6 +1,6 @@
 export interface AccessTokenResponse {
     status: number,
-    data: AccessTokenSuccess | AccessTokenError | undefined,
+    data: unknown,
     message: string
     type?: string
     date: Date
@@ -11,7 +11,7 @@ export interface AccessTokenSuccess {
     token_type: string,
     scope: string,
     expires_in: number,
-    refresh_token: string
+    refresh_token?: string
 }
 
 export interface AccessTokenError {

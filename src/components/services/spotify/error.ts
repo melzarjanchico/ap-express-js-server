@@ -2,6 +2,26 @@ import { AccessTokenError, AccessTokenResponse } from "./auth/models";
 import { SpotityMainServiceResponse } from "./main/models"
 
 const spotifyAuthErrors: Record<string, any> = {
+    PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR: {
+        message: "Last access token saved in the server is empty pre-update.",
+        type: "PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR",
+        code: 500
+    },
+    POST_EMPTY_LAST_ACCESS_TOKEN_ERROR: {
+        message: "Last access token saved in the server is empty post-update.",
+        type: "POST_EMPTY_LAST_ACCESS_TOKEN_ERROR",
+        code: 500
+    },
+    EMPTY_REFRESH_TOKEN_ERROR: {
+        message: "Last access token refresh token is empty.",
+        type: "EMPTY_REFRESH_TOKEN_ERROR",
+        code: 500
+    },
+    UPDATE_EXPIRED_TOKEN_ERROR: {
+        message: "Something went wrong during updating expired token.",
+        type: "UPDATE_EXPIRED_TOKEN_ERROR",
+        code: 500
+    },
     AXIOS_REFRESH_TOKEN_ERROR: {
         message: "Unknown axios error encountered",
         type: "AXIOS_REFRESH_TOKEN_ERROR",
@@ -15,6 +35,11 @@ const spotifyAuthErrors: Record<string, any> = {
 }
 
 const spotifyErrors: Record<string, any> = {
+    GET_ACCESS_TOKEN_ERROR: {
+        message: "Error encountered during refresh, get, or update of access token.",
+        type: "GET_ACCESS_TOKEN_ERROR",
+        code: 500
+    },
     EXPIRED_ACCESS_TOKEN: {
         message: "Access token is expired",
         type: "EXPIRED_ACCESS_TOKEN",

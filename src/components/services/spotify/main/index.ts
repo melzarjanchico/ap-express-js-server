@@ -1,14 +1,29 @@
 import axios from "axios";
 import { SpotifyMainServiceErrorResponse, SpotityMainServiceResponse, TopTracksSuccessResponse } from "./models";
 import { spotifyErrorHandler } from "../error";
+import { SpotifyAuthService } from "../auth";
 
 export class SpotifyMainService {
     public API_URL = "https://api.spotify.com/v1";
 
+    constructor(
+        private svc: SpotifyAuthService
+    ) {}
+
     // * =======================================
     // * GET Top Tracks
     // * =======================================
-    async getCurrentTrack(accessToken: string, timeRange?: string, limit?: number, offset?: number) {
+    async getCurrentTrack(timeRange?: string, limit?: number, offset?: number) {
+        let accessToken: string;
+
+        try {
+            await this.svc.updateToken();
+            accessToken = await this.svc.getToken();
+        } catch (error) {
+            console.error("GET_ACCESS_TOKEN_ERROR", error)
+            return spotifyErrorHandler("GET_ACCESS_TOKEN_ERROR", error, `${(error as Error).message ?? `Something went wrong getting and updating the token.`}`)
+        }
+
         const params = {
             time_range: timeRange ?? 'short_term',
             limit: limit ?? 10,
@@ -51,7 +66,7 @@ export class SpotifyMainService {
             }
 
             console.error("AXIOS_TOP_TRACK_ERROR", error)
-            return spotifyErrorHandler("AXIOS_TOP_TRACK_ERROR", undefined, `${(error as Error).message ?? `Something went wrong getting top user tracks.`}`)
+            return spotifyErrorHandler("AXIOS_TOP_TRACK_ERROR", error, `${(error as Error).message ?? `Something went wrong getting top user tracks.`}`)
         }
     }
 
