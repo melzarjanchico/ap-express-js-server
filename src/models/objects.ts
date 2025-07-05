@@ -25,6 +25,22 @@ export interface Artist {
     external_urls: {
         spotify: string
     },
+    followers: {
+        total: number
+    },
+    genres: string[],
+    id: string,
+    images: Image[],
+    name: string,
+    popularity: number,
+    type: string,
+    uri: string
+}
+
+export interface SimplifiedArtist {
+    external_urls: {
+        spotify: string
+    },
     id: string,
     name: string,
     type: string,
@@ -33,7 +49,7 @@ export interface Artist {
 
 export interface Album {
     album_type: string,
-    artists: Artist[],
+    artists: SimplifiedArtist[],
     external_urls: {
         spotify: string
     },
@@ -48,7 +64,7 @@ export interface Album {
 
 export interface Track {
     album: Album,
-    artists: Artist[],
+    artists: SimplifiedArtist[],
     disc_number: number,
     explicit: boolean,
     external_urls: {

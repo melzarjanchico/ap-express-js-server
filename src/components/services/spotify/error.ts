@@ -45,6 +45,8 @@ const spotifyErrors: Record<string, any> = {
         type: "EXPIRED_ACCESS_TOKEN",
         code: 401
     },
+
+    // TOP TRACKS ERRORS
     AXIOS_TOP_TRACK_ERROR: {
         message: "Unknown axios error encountered",
         type: "AXIOS_TOP_TRACK_ERROR",
@@ -53,6 +55,42 @@ const spotifyErrors: Record<string, any> = {
     UNCAUGHT_TOP_TRACK_ERROR: {
         message: "Unknown uncaught error encountered",
         type: "AXIOS_TOP_TRACK_ERROR",
+        code: 500
+    },
+
+    // TOP ARTISTS ERROR
+    AXIOS_TOP_ARTIST_ERROR: {
+        message: "Unknown axios error encountered",
+        type: "AXIOS_TOP_ARTIST_ERROR",
+        code: 500
+    },
+    UNCAUGHT_TOP_ARTIST_ERROR: {
+        message: "Unknown uncaught error encountered",
+        type: "UNCAUGHT_TOP_ARTIST_ERROR",
+        code: 500
+    },
+
+    // USER PROFILE ERRORS
+    AXIOS_USER_PROFILE_ERROR: {
+        message: "Unknown axios error encountered",
+        type: "AXIOS_USER_PROFILE_ERROR",
+        code: 500
+    },
+    UNCAUGHT_USER_PROFILE_ERROR: {
+        message: "Unknown uncaught error encountered",
+        type: "UNCAUGHT_USER_PROFILE_ERROR",
+        code: 500
+    },
+
+    // CURRENT TRACK ERRORS
+    AXIOS_CURRENT_TRACK_ERROR: {
+        message: "Unknown axios error encountered",
+        type: "AXIOS_CURRENT_TRACK_ERROR",
+        code: 500
+    },
+    UNCAUGHT_CURRENT_TRACK_ERROR: {
+        message: "Unknown uncaught error encountered",
+        type: "UNCAUGHT_CURRENT_TRACK_ERROR",
         code: 500
     }
 }
