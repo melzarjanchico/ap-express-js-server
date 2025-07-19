@@ -19,11 +19,13 @@ const main = async () => {
 
   // Instantiate and mount services
   const spotifyAuthService = new SpotifyAuthService();
+  await spotifyAuthService.createToken();
+
   const spotifyService = new SpotifyMainService(spotifyAuthService);
 
   // Instantiate and mount controllers
   const mainController = new MainController();
-  const spotifyController = new SpotifyController(spotifyAuthService, spotifyService);
+  const spotifyController = new SpotifyController(spotifyService);
 
   app.use('/', mainController.router);
   app.use('/spotify', spotifyController.router);

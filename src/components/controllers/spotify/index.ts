@@ -1,12 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { SpotifyMainService } from '../../services/spotify/main';
-import { SpotifyAuthService } from '../../services/spotify/auth';
 
 export default class SpotifyController {
   public router: Router;
 
   constructor(
-    private authSvc: SpotifyAuthService,
     private mainSvc: SpotifyMainService
   ) {
     this.router = Router();
@@ -14,34 +12,11 @@ export default class SpotifyController {
   }
 
   private initializeRoutes(): void {
-    // Auth
-    this.router.get('/refresh_token', this.postRefreshToken.bind(this))
-
     // Main
     this.router.get('/user', this.getUser.bind(this));
     this.router.get('/current_track', this.getCurrentTrack.bind(this));
     this.router.get('/tracks', this.getTopTracks.bind(this));
     this.router.get('/artists', this.getTopArtists.bind(this));
-  }
-
-  private async postRefreshToken(req: Request, res: Response) {
-    const refreshToken = req.query.refresh_token as string;
-    let updatedAccessToken;
-
-    try {
-      updatedAccessToken = await this.authSvc.updateToken(refreshToken);
-    } catch (e) {
-      res.status(500).json({
-        status: 500,
-        message: 'Something went wrong while updating the refresh token.'
-      })
-    }
-
-    res.status(200).json({
-      status: 200,
-      data: updatedAccessToken,
-      message: 'Refresh token updated.'
-    })
   }
 
   private async getUser(req: Request, res: Response) {
