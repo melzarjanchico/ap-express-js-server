@@ -21,74 +21,67 @@ export class SpotifyAuthService {
         const accessTokenString = accessToken ? (accessToken.data as AccessTokenSuccess).access_token : '';
 
         if (!accessToken || !accessTokenString) {
-            throw new Error('Invalid or missing access token obj in lastAccessTokenResponse.');
+            console.error("[SpotifyAuthService][getToken] Invalid or missing access token obj in lastAccessTokenResponse.");
+            throw new Error('GET_TOKEN_NO_REFRESH_TOKEN_ERROR');
         }
 
         return accessTokenString;
     }
 
     // * =======================================
+    // * Create Token
+    // * =======================================
+    async createToken(): Promise<void> {
+        const newAccessToken = await this.refreshToken();
+
+        if (!newAccessToken || newAccessToken.status !== 200) {
+            console.error("[SpotifyAuthService][createToken] No access token created on refreshToken.");
+            throw new Error('CREATE_TOKEN_NO_TOKEN_ERROR')
+        }
+
+        this.lastAccessTokenResponse = newAccessToken;
+    }
+
+    // * =======================================
     // * Update Token
     // * =======================================
-    async updateToken(manualRefreshToken?: string) : Promise<AccessTokenResponse> {
+    async updateToken() : Promise<AccessTokenResponse> {
         const accessToken = this.lastAccessTokenResponse;
 
-        if (!manualRefreshToken) {
-            if (!accessToken) {
-                console.error('PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR');
-                return spotifyAuthErrorHandler('PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR')
-            }
+        if (!accessToken) {
+            console.error('PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR');
+            return spotifyAuthErrorHandler('PRE_EMPTY_LAST_ACCESS_TOKEN_ERROR')
+        }
 
-            const { expires_in, refresh_token } = accessToken.data as AccessTokenSuccess;
+        const tokenIssuedAt = new Date(accessToken.date).getTime();
+        const tokenExpiresAt = tokenIssuedAt + (accessToken.data as AccessTokenSuccess).expires_in * 1000;
+        const now = Date.now();
 
-            if (!refresh_token) {
-                console.error('EMPTY_REFRESH_TOKEN_ERROR', accessToken);
+        if (now >= tokenExpiresAt) {
+            const newAccessToken = await this.refreshToken();
+            if (!newAccessToken || newAccessToken.status !== 200) {
+                console.error("UPDATE_EXPIRED_TOKEN_ERROR");
                 return spotifyAuthErrorHandler("EMPTY_REFRESH_TOKEN_ERROR")
             }
 
-            const tokenIssuedAt = new Date(accessToken.date).getTime();
-            const tokenExpiresAt = tokenIssuedAt + expires_in * 1000;
-            const now = Date.now();
-
-            if (now >= tokenExpiresAt) {
-                const newAccessToken = await this.refreshToken(refresh_token);
-                if (!newAccessToken || newAccessToken.status !== 200 || !(newAccessToken.data as AccessTokenSuccess).refresh_token) {
-                    console.error("UPDATE_EXPIRED_TOKEN_ERROR");
-                    return spotifyAuthErrorHandler("EMPTY_REFRESH_TOKEN_ERROR")
-                }
-
-                this.lastAccessTokenResponse = newAccessToken;
-            }
-
-            if (!this.lastAccessTokenResponse) {
-                console.error("POST_EMPTY_LAST_ACCESS_TOKEN_ERROR");
-                return spotifyAuthErrorHandler("POST_EMPTY_LAST_ACCESS_TOKEN_ERROR")
-            }
-
-            return this.lastAccessTokenResponse;
-
-        } else {
-            const newAccessToken = await this.refreshToken(manualRefreshToken);
-            if (!newAccessToken || newAccessToken.status !== 200) {
-                throw new Error ('Something went wrong while refreshing token.')
-            }
-
-            if (!(newAccessToken.data as AccessTokenSuccess).refresh_token) {
-                (newAccessToken.data as AccessTokenSuccess).refresh_token = manualRefreshToken;
-            }
-
             this.lastAccessTokenResponse = newAccessToken;
-            return this.lastAccessTokenResponse;
         }
+
+        if (!this.lastAccessTokenResponse) {
+            console.error("POST_EMPTY_LAST_ACCESS_TOKEN_ERROR");
+            return spotifyAuthErrorHandler("POST_EMPTY_LAST_ACCESS_TOKEN_ERROR")
+        }
+
+        return this.lastAccessTokenResponse;
     }
 
     // * =======================================
     // * Refresh Token
     // * =======================================
-    async refreshToken(refreshToken: string): Promise<AccessTokenResponse> {
+    async refreshToken(): Promise<AccessTokenResponse> {
         const params = new URLSearchParams({
             grant_type: 'refresh_token',
-            refresh_token: refreshToken,
+            refresh_token: process.env.REFRESH_TOKEN as string,
         });
         const authHeader = `Basic ${(Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))}`;
 
