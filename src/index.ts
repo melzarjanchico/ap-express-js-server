@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import SpotifyController from './components/controllers/spotify';
 import MainController from './components/controllers/main';
 import { SpotifyMainService } from './components/services/spotify/main';
@@ -14,12 +13,6 @@ const main = async () => {
 
   const app = express();
   const port = process.env.PORT || 3000;
-
-  // Temporary: Enable CORS for the frontend origin
-  app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-  }));
 
   // Add this middleware to enable JSON body parsing
   app.use(express.json());
