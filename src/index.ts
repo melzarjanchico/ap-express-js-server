@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import SpotifyController from './components/controllers/spotify';
 import MainController from './components/controllers/main';
 import { SpotifyMainService } from './components/services/spotify/main';
@@ -13,6 +14,20 @@ const main = async () => {
 
   const app = express();
   const port = process.env.PORT || 3000;
+
+  const allowedOrigins = ['http://localhost:5173', 'https://my-app.vercel.app'];
+
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS not allowed'));
+      }
+    },
+    credentials: true
+  }));
 
   // Add this middleware to enable JSON body parsing
   app.use(express.json());
