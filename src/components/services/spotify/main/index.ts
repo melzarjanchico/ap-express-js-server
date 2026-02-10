@@ -205,12 +205,23 @@ export class SpotifyMainService {
             });
             const data = response.data;
 
-            return {
-                status: 200,
-                data,
-                message: `User current track acquired!`,
-                date: new Date()
-            } as SpotityMainServiceResponse;
+            if (!data) {
+                console.warn("NO_CURRENTLY_PLAYING_TRACK");
+                return {
+                    status: 200,
+                    data,
+                    message: `No currently playing track.`,
+                    date: new Date(),
+                    type: "NO_CURRENTLY_PLAYING_TRACK"
+                } as SpotityMainServiceResponse;
+            } else {
+                return {
+                    status: 200,
+                    data,
+                    message: `User current track acquired!`,
+                    date: new Date()
+                } as SpotityMainServiceResponse;
+            }
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -221,8 +232,8 @@ export class SpotifyMainService {
                     console.warn("EXPIRED_ACCESS_TOKEN:", status, errData.error.message);
                     return spotifyErrorHandler("EXPIRED_ACCESS_TOKEN", errData.error)
                 }
-
-                console.error("AXIOS_CURRENT_TRACK_ERROR", status, errData.error.message)
+                
+                console.error("AXIOS_CURRENT_TRACK_ERROR", status, errData.error, errData.error.message)
                 return spotifyErrorHandler("AXIOS_CURRENT_TRACK_ERROR", errData, `${errData?.error?.message}`)
             }
 
