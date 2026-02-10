@@ -15,7 +15,12 @@ const main = async () => {
   const app = express();
   const port = process.env.PORT || 3000;
 
-  const allowedOrigins = ['http://localhost:5173', 'https://my-app.vercel.app'];
+  // TODO: Put this in env var.
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://my-app.vercel.app',
+    'https://melzarr-spotify-stats.vercel.app'
+  ];
 
   app.use(cors({
     origin: function (origin, callback) {
