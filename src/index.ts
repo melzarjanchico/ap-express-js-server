@@ -5,6 +5,8 @@ import SpotifyController from './components/controllers/spotify';
 import MainController from './components/controllers/main';
 import { SpotifyMainService } from './components/services/spotify/main';
 import { SpotifyAuthService } from './components/services/spotify/auth';
+import { SteamMainService } from './components/services/steam';
+import SteamController from './components/controllers/steam';
 
 const main = async () => {
 
@@ -43,12 +45,16 @@ const main = async () => {
 
   const spotifyService = new SpotifyMainService(spotifyAuthService);
 
+  const steamService = new SteamMainService();
+
   // Instantiate and mount controllers
   const mainController = new MainController();
   const spotifyController = new SpotifyController(spotifyService);
+  const steamController = new SteamController(steamService);
 
   app.use('/', mainController.router);
   app.use('/spotify', spotifyController.router);
+  app.use('/steam', steamController.router);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

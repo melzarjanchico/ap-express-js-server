@@ -80,3 +80,21 @@ export interface Track {
     uri: string
 }
 
+export interface Game {
+    id: number;
+    gameName: string;
+    imgIconUrl: string;
+    imgHeroCapsuleUrl?: string;
+    imgSmallCapsuleUrl?: string;
+    imgBigCapsuleUrl?: string;
+    imgHeaderUrl?: string;
+    playtimeMinutes: number;
+    playtimeReadable: string;
+    lastPlayed: string | null;
+}
+
+export interface CurrentGame {
+    state: number,
+    status: string,
+    game?: Game,
+}
