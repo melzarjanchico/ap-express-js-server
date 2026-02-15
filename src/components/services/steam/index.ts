@@ -54,7 +54,6 @@ export class SteamMainService {
 
         } catch (error) {
             console.error("UNCAUGHT_GET_OWNED_GAME_ERROR", error);
-
             return steamErrorHandler("UNCAUGHT_GET_OWNED_GAME_ERROR", error);
         }
     }
@@ -105,5 +104,4 @@ export class SteamMainService {
             return steamErrorHandler("UNCAUGHT_GET_PLAYER_SUMMARY_ERROR", error);
         }
     }
-
 }

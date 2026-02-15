@@ -46,5 +46,4 @@ export default class SpotifyController {
     const topArtists = await this.mainSvc.getTopArtists(timeRange, limit, offset);
     res.status(topArtists.status).json(topArtists);
   }
-
 }
