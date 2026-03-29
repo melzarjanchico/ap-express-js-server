@@ -20,7 +20,7 @@ const main = async () => {
   // TODO: Put this in env var.
   const allowedOrigins = [
     'http://localhost:5173',
-    'https://my-app.vercel.app',
+    'https://melzarjanchico-dev.vercel.app',
     'https://melzarr-spotify-stats.vercel.app'
   ];
 
