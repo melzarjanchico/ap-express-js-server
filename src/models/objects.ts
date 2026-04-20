@@ -93,6 +93,13 @@ export interface Game {
     lastPlayed: string | null;
 }
 
+export interface LetterboxdWatch {
+    title: string;
+    rating: number;
+    watchedDate: string;
+    imageUrl: string;
+}
+
 export interface CurrentGame {
     state: number,
     status: string,
