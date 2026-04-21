@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>API Documentation</title>
+  <style>
+    body {font-family: Arial, Helvetica, sans-serif; margin: 2rem; background:#fafafa; color:#333;}
+    h1, h2 {color:#222; margin-bottom:0.5rem;}
+    table {width:100%; border-collapse:collapse; margin-bottom:2rem;}
+    th, td {border:1px solid #ddd; padding:0.6rem; text-align:left;}
+    th {background:#f0f0f0;}
+    tr:hover {background:#f9f9f9;}
+    code {background:#eee; padding:2px 4px; border-radius:3px;}
+    .section {margin-top:2rem;}
+    .note {font-size:0.9rem; color:#555;}
+  </style>
+</head>
+<body>
+  <h1>API Documentation</h1>
+  <p class="note">Base URL: <code>http://localhost:3000</code></p>
+
+  <div class="section">
+    <h2>Core Endpoints</h2>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GET</td><td>/</td><td>Serves this documentation page.</td></tr>
+        <tr><td>POST</td><td>/echo</td><td>Echoes back the JSON payload sent in the request body.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Spotify Service</h2>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Query Params</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GET</td><td>/spotify/user</td><td>-</td><td>Retrieve the authenticated Spotify user profile.</td></tr>
+        <tr><td>GET</td><td>/spotify/current_track</td><td>-</td><td>Get the currently playing track for the user.</td></tr>
+        <tr><td>GET</td><td>/spotify/tracks</td><td>time_range, limit, offset</td><td>List top tracks for the given time range.</td></tr>
+        <tr><td>GET</td><td>/spotify/artists</td><td>time_range, limit, offset</td><td>List top artists for the given time range.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Steam Service</h2>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GET</td><td>/steam/owned_games</td><td>List games owned by the user.</td></tr>
+        <tr><td>GET</td><td>/steam/current_game</td><td>Get the currently played game.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Letterboxd Service</h2>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GET</td><td>/letterboxd/recent</td><td>Retrieve recent watch entries from Letterboxd.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="note">Generated automatically – keep this file in sync with controller changes.</footer>
+</body>
+</html>
