@@ -93,6 +93,17 @@ export interface Game {
     lastPlayed: string | null;
 }
 
+export interface Film {
+    title: string;
+    year: string;
+    isLiked: boolean;
+    isRewatched: boolean;
+    watchedDate: string;
+    rating: number;
+    stars: string;
+    imageUrl: string;
+}
+
 export interface CurrentGame {
     state: number,
     status: string,
