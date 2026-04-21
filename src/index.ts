@@ -6,6 +6,8 @@ import MainController from './components/controllers/main';
 import { SpotifyMainService } from './components/services/spotify/main';
 import { SpotifyAuthService } from './components/services/spotify/auth';
 import { SteamMainService } from './components/services/steam';
+import { LetterboxdService } from './components/services/letterboxd';
+import LetterboxdController from './components/controllers/letterboxd';
 import SteamController from './components/controllers/steam';
 
 const main = async () => {
@@ -46,15 +48,18 @@ const main = async () => {
   const spotifyService = new SpotifyMainService(spotifyAuthService);
 
   const steamService = new SteamMainService();
+  const letterboxdService = new LetterboxdService();
 
   // Instantiate and mount controllers
   const mainController = new MainController();
   const spotifyController = new SpotifyController(spotifyService);
   const steamController = new SteamController(steamService);
+  const letterboxdController = new LetterboxdController(letterboxdService);
 
   app.use('/', mainController.router);
   app.use('/spotify', spotifyController.router);
   app.use('/steam', steamController.router);
+  app.use('/letterboxd', letterboxdController.router);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

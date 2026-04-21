@@ -21,12 +21,10 @@ export const minutesToReadable = (minutes: number) => {
 export const convertPlaytime = (unixSeconds?: number): string | null => {
     if (!unixSeconds) return null;
 
-    return new Date(unixSeconds * 1000).toLocaleString("en-PH", {
+    return new Date(unixSeconds * 1000).toLocaleString("en-GB", {
         timeZone: "Asia/Manila",
-        year: "numeric",
-        month: "short",
         day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
+        month: "short",
+        year: "numeric",
+    }).replace(/,/g, ""); 
 };
