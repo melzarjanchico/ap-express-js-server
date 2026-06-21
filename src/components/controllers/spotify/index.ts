@@ -1,5 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { SpotifyMainService } from '../../services/spotify/main';
+import { WrappedPlaylists } from '../../../data/wrapped';
+import { spotifyErrorHandler } from '../../services/spotify/error';
 
 export default class SpotifyController {
   public router: Router;
@@ -17,6 +19,7 @@ export default class SpotifyController {
     this.router.get('/current_track', this.getCurrentTrack.bind(this));
     this.router.get('/tracks', this.getTopTracks.bind(this));
     this.router.get('/artists', this.getTopArtists.bind(this));
+    this.router.get('/wrapped/:year', this.getWrappedByYear.bind(this));
   }
 
   private async getUser(req: Request, res: Response) {
@@ -45,5 +48,26 @@ export default class SpotifyController {
 
     const topArtists = await this.mainSvc.getTopArtists(timeRange, limit, offset);
     res.status(topArtists.status).json(topArtists);
+  }
+
+  private async getWrappedByYear(req: Request, res: Response) {
+    const year = req.params.year as string;
+    const wrappedPlaylist = WrappedPlaylists[year];
+
+    if (!wrappedPlaylist) {
+      const error = spotifyErrorHandler("WRAPPED_INVALID_YEAR_ERROR")
+      return res.status(error.status).json(error);
+    }
+
+    const match = wrappedPlaylist.match(/playlist\/([a-zA-Z0-9]+)/);
+    const playlistId = match ? match[1] : null;
+
+    if (!playlistId) {
+      const error = spotifyErrorHandler("WRAPPED_PLAYLIST_ID_ERROR")
+      return res.status(error.status).json(error);
+    }
+
+    const wrapped = await this.mainSvc.getPlaylist(playlistId!);
+    res.status(200).json(wrapped);
   }
 }
