@@ -92,7 +92,31 @@ const spotifyErrors: Record<string, any> = {
         message: "Unknown uncaught error encountered",
         type: "UNCAUGHT_CURRENT_TRACK_ERROR",
         code: 500
-    }
+    },
+
+    // GET_PLAYLIST ERRORS
+    AXIOS_GET_PLAYLIST_ERROR: {
+        message: "Unknown axios error encountered",
+        type: "AXIOS_GET_PLAYLIST_ERROR",
+        code: 500
+    },
+    UNCAUGHT_GET_PLAYLIST_ERROR: {
+        message: "Unknown uncaught error encountered",
+        type: "UNCAUGHT_GET_PLAYLIST_ERROR",
+        code: 500
+    },
+
+    // WRAPPED ERRORS
+    WRAPPED_INVALID_YEAR_ERROR: {
+        message: "Inputted Wrapped Year is not valid",
+        type: "WRAPPED_INVALID_YEAR_ERROR",
+        code: 400
+    },
+    WRAPPED_PLAYLIST_ID_ERROR: {
+        message: "Spotify Wrapped Playlist Id was not successfully extracted.",
+        type: "WRAPPED_PLAYLIST_ID_ERROR",
+        code: 400
+    },
 }
 
 export const spotifyAuthErrorHandler = (type: string, data?: AccessTokenError, message?: string) : AccessTokenResponse => {

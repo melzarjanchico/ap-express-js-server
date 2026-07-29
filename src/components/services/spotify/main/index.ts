@@ -240,6 +240,60 @@ export class SpotifyMainService {
             console.error("UNCAUGHT_CURRENT_TRACK_ERROR", error)
             return spotifyErrorHandler("UNCAUGHT_CURRENT_TRACK_ERROR", error, `${(error as Error).message ?? `Something went wrong getting user current track.`}`)
         }
+    }
 
+    // * =======================================
+    // * GET Spotify Playlist
+    // * =======================================
+    async getPlaylist(id: string) {
+        let accessToken: string;
+
+        try {
+            await this.svc.updateToken();
+            accessToken = await this.svc.getToken();
+        } catch (error) {
+            console.error("GET_ACCESS_TOKEN_ERROR", error)
+            return spotifyErrorHandler("GET_ACCESS_TOKEN_ERROR", error, `${(error as Error).message ?? `Something went wrong getting and updating the token.`}`)
+        }
+
+        const params = {
+            fields: "name,items(items(track(name,album(images),artists(name,external_urls),popularity,external_urls)))"
+        };
+        const url = `${this.API_URL}/playlists/${id}`;
+
+        try {
+            const response = await axios.get<TopTracksSuccessResponse>(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                params,
+            });
+
+            const data = response.data;
+
+            return {
+                status: 200,
+                data,
+                message: `Playlist ${id} acquired!`,
+                date: new Date()
+            } as SpotityMainServiceResponse;
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const status = error.response?.status;
+                const errData = error.response?.data as SpotifyMainServiceErrorResponse;
+
+                if (status === 401 && errData?.error?.message === "The access token expired") {
+                    console.warn("EXPIRED_ACCESS_TOKEN:", status, errData.error.message);
+                    return spotifyErrorHandler("EXPIRED_ACCESS_TOKEN", errData.error)
+                }
+
+                console.error("AXIOS_GET_PLAYLIST_ERROR", status, errData.error.message)
+                return spotifyErrorHandler("AXIOS_GET_PLAYLIST_ERROR", errData, `${errData?.error?.message}`)
+            }
+
+            console.error("UNCAUGHT_GET_PLAYLIST_ERROR", error)
+            return spotifyErrorHandler("UNCAUGHT_GET_PLAYLIST_ERROR", error, `${(error as Error).message ?? `Something went wrong getting top user tracks.`}`)
+        }
     }
 }

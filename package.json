@@ -1,5 +1,5 @@
 {
-  "name": "express-ts-app",
+  "name": "melzarr-api",
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
