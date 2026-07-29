@@ -5,10 +5,12 @@ import SpotifyController from './components/controllers/spotify';
 import MainController from './components/controllers/main';
 import { SpotifyMainService } from './components/services/spotify/main';
 import { SpotifyAuthService } from './components/services/spotify/auth';
-import { SteamMainService } from './components/services/steam';
+import { SteamService } from './components/services/steam';
 import { LetterboxdService } from './components/services/letterboxd';
+import { LastfmService } from './components/services/lastfm';
 import LetterboxdController from './components/controllers/letterboxd';
 import SteamController from './components/controllers/steam';
+import LastfmController from './components/controllers/lastfm';
 
 const main = async () => {
 
@@ -47,19 +49,22 @@ const main = async () => {
 
   const spotifyService = new SpotifyMainService(spotifyAuthService);
 
-  const steamService = new SteamMainService();
+  const steamService = new SteamService();
   const letterboxdService = new LetterboxdService();
+  const lastfmService = new LastfmService();
 
   // Instantiate and mount controllers
   const mainController = new MainController();
   const spotifyController = new SpotifyController(spotifyService);
   const steamController = new SteamController(steamService);
   const letterboxdController = new LetterboxdController(letterboxdService);
+  const lastfmController = new LastfmController(lastfmService);
 
   app.use('/', mainController.router);
   app.use('/spotify', spotifyController.router);
   app.use('/steam', steamController.router);
   app.use('/letterboxd', letterboxdController.router);
+  app.use('/lastfm', lastfmController.router);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
