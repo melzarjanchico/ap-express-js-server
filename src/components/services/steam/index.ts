@@ -4,7 +4,7 @@ import { steamErrorHandler } from "./error";
 import { CurrentGame, Game } from "../../../models/objects";
 import { convertPlaytime, getSteamImages, minutesToReadable } from "./helper";
 
-export class SteamMainService {
+export class SteamService {
     public API_URL = "http://api.steampowered.com";
     private API_KEY: string | undefined
     private STEAM_ID: string | undefined

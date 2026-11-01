@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { SteamMainService } from '../../services/steam';
+import { SteamService } from '../../services/steam';
 
 export default class SteamController {
   public router: Router;
 
   constructor(
-    private mainSvc: SteamMainService
+    private mainSvc: SteamService
   ) {
     this.router = Router();
     this.initializeRoutes();
