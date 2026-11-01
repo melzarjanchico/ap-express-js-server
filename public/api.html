@@ -1,77 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Melzar API Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    body {font-family: Arial, Helvetica, sans-serif; margin: 2rem; background:#fafafa; color:#333;}
-    h1, h2 {color:#222; margin-bottom:0.5rem;}
-    table {width:100%; border-collapse:collapse; margin-bottom:2rem;}
-    th, td {border:1px solid #ddd; padding:0.6rem; text-align:left;}
-    th {background:#f0f0f0;}
-    tr:hover {background:#f9f9f9;}
-    code {background:#eee; padding:2px 4px; border-radius:3px;}
-    .section {margin-top:2rem;}
-    .note {font-size:0.9rem; color:#555;}
+    body { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .endpoint-card:hover { transform: translateY(-2px); }
   </style>
 </head>
-<body>
-  <h1>API Documentation</h1>
-  <p class="note">Base URL: <code>https://melzar-api.vercel.app</code></p>
+<body class="bg-gray-50 text-gray-900">
 
-  <div class="section">
-    <h2>Core Endpoints</h2>
-    <table>
-      <thead>
-        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>GET</td><td>/</td><td>Serves this documentation page.</td></tr>
-        <tr><td>POST</td><td>/echo</td><td>Echoes back the JSON payload sent in the request body.</td></tr>
-      </tbody>
-    </table>
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+            M
+          </div>
+          <span class="font-bold text-xl tracking-tight text-gray-900">Melzar API</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Base URL</a>
+          <span class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-xs font-medium leading-4 text-gray-700 bg-gray-100 border border-gray-200 mono">
+            https://melzar-api.vercel.app
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Sidebar Navigation -->
+      <aside class="lg:w-72 flex-shrink-0 hidden lg:block">
+        <div class="sticky top-24">
+          <h2 class="px-3 text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">On this page</h2>
+          <nav>
+            <ul class="space-y-1" id="sidebar-links">
+              <li><a href="#core" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="core">Core</a></li>
+              <li><a href="#spotify" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="spotify">Spotify</a></li>
+              <li><a href="#steam" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="steam">Steam</a></li>
+              <li><a href="#letterboxd" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="letterboxd">Letterboxd</a></li>
+              <li><a href="#lastfm" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="lastfm">Last.fm</a></li>
+              <li><a href="#try" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="try">Try it out</a></li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-2">API Documentation</h1>
+        <p class="text-gray-500 mb-8">Interact with the Melzar API endpoints below. All paths are relative to the base URL.</p>
+
+        <!-- Core -->
+        <section id="core" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 font-mono text-sm">Core</span>
+            Core Endpoints
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Serves this documentation page.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">POST</td>
+                  <td class="py-3 mono font-medium">/echo</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Echoes back the JSON payload sent in the request body.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Spotify -->
+        <section id="spotify" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-mono text-sm">SP</span>
+            Spotify Service
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/spotify/user</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Retrieve the authenticated Spotify user profile.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/spotify/current_track</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Get the currently playing track for the user.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/spotify/tracks</td>
+                  <td class="py-3 mono">time_range, limit, offset</td>
+                  <td class="py-3">List top tracks for the given time range.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/spotify/artists</td>
+                  <td class="py-3 mono">time_range, limit, offset</td>
+                  <td class="py-3">List top artists for the given time range.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/spotify/wrapped/:year</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Fetch the Spotify Wrapped playlist for a given year.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Steam -->
+        <section id="steam" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-mono text-sm">ST</span>
+            Steam Service
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/steam/owned_games</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">List games owned by the user.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/steam/current_game</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Get the currently played game.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Letterboxd -->
+        <section id="letterboxd" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center text-green-600 font-mono text-sm">LB</span>
+            Letterboxd Service
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/letterboxd/recent</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Retrieve recent watch entries from Letterboxd.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Last.fm -->
+        <section id="lastfm" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-mono text-sm">LF</span>
+            Last.fm Service
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/lastfm/recent_track</td>
+                  <td class="py-3 mono">limit</td>
+                  <td class="py-3">Retrieve recent tracks listened to by the user.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/lastfm/top_tracks</td>
+                  <td class="py-3 mono">limit, period</td>
+                  <td class="py-3">List top tracks for the given period.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/lastfm/top_artists</td>
+                  <td class="py-3 mono">limit, period</td>
+                  <td class="py-3">List top artists for the given period.</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/lastfm/top_albums</td>
+                  <td class="py-3 mono">limit, period</td>
+                  <td class="py-3">List top albums for the given period.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Try it out -->
+        <section id="try" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 font-mono text-sm">🧪</span>
+            Try it out
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Controls -->
+              <div class="lg:col-span-1 space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Endpoint</label>
+                  <select id="try-endpoint" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white">
+                    <option value="GET:/spotify/user">GET /spotify/user</option>
+                    <option value="GET:/spotify/current_track">GET /spotify/current_track</option>
+                    <option value="GET:/spotify/tracks">GET /spotify/tracks</option>
+                    <option value="GET:/spotify/artists">GET /spotify/artists</option>
+                    <option value="GET:/spotify/wrapped/:year">GET /spotify/wrapped/:year</option>
+                    <option value="GET:/steam/owned_games">GET /steam/owned_games</option>
+                    <option value="GET:/steam/current_game">GET /steam/current_game</option>
+                    <option value="GET:/letterboxd/recent">GET /letterboxd/recent</option>
+                    <option value="GET:/lastfm/recent_track">GET /lastfm/recent_track</option>
+                    <option value="GET:/lastfm/top_tracks">GET /lastfm/top_tracks</option>
+                    <option value="GET:/lastfm/top_artists">GET /lastfm/top_artists</option>
+                    <option value="GET:/lastfm/top_albums">GET /lastfm/top_albums</option>
+                  </select>
+                </div>
+
+                <div id="try-params" class="space-y-3">
+                  <!-- Params injected here by JS -->
+                </div>
+
+                <div class="flex gap-2">
+                  <button id="try-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-md font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Try it out
+                  </button>
+                  <button id="try-clear" class="px-4 py-2.5 border border-gray-300 rounded-md text-gray-700 font-medium text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Clear
+                  </button>
+                </div>
+
+                <p class="text-xs text-gray-500">
+                  Requests are made from your browser to the same origin this page is served from. Endpoints requiring authentication may return an error if no session is active.
+                </p>
+              </div>
+
+              <!-- Response -->
+              <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-semibold text-gray-900">Response</h3>
+                  <span id="try-status" class="px-2 py-1 rounded text-xs font-bold">—</span>
+                </div>
+                <div class="bg-gray-900 rounded-md p-4 overflow-x-auto font-mono text-sm text-gray-200 h-96">
+                  <pre id="try-response" class="whitespace-pre-wrap">Select an endpoint and click "Try it out".</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="mt-12 pt-8 border-t border-gray-200 text-sm text-gray-500">
+          Generated automatically &mdash; keep this file in sync with controller changes.
+        </footer>
+      </main>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Spotify Service</h2>
-    <table>
-      <thead>
-        <tr><th>Method</th><th>Path</th><th>Query Params</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>GET</td><td>/spotify/user</td><td>-</td><td>Retrieve the authenticated Spotify user profile.</td></tr>
-        <tr><td>GET</td><td>/spotify/current_track</td><td>-</td><td>Get the currently playing track for the user.</td></tr>
-        <tr><td>GET</td><td>/spotify/tracks</td><td>time_range, limit, offset</td><td>List top tracks for the given time range.</td></tr>
-        <tr><td>GET</td><td>/spotify/artists</td><td>time_range, limit, offset</td><td>List top artists for the given time range.</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <script>
+    (() => {
+      const endpointSelect = document.getElementById('try-endpoint');
+      const paramsContainer = document.getElementById('try-params');
+      const tryBtn = document.getElementById('try-btn');
+      const clearBtn = document.getElementById('try-clear');
+      const statusBadge = document.getElementById('try-status');
+      const responsePre = document.getElementById('try-response');
 
-  <div class="section">
-    <h2>Steam Service</h2>
-    <table>
-      <thead>
-        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>GET</td><td>/steam/owned_games</td><td>List games owned by the user.</td></tr>
-        <tr><td>GET</td><td>/steam/current_game</td><td>Get the currently played game.</td></tr>
-      </tbody>
-    </table>
-  </div>
+      // Endpoint definitions: method, path, param names
+      const endpoints = {
+        'GET:/': { method: 'GET', path: '/', params: [] },
+        'POST:/echo': { method: 'POST', path: '/echo', params: [] },
+        'GET:/spotify/user': { method: 'GET', path: '/spotify/user', params: [] },
+        'GET:/spotify/current_track': { method: 'GET', path: '/spotify/current_track', params: [] },
+        'GET:/spotify/tracks': { method: 'GET', path: '/spotify/tracks', params: ['time_range', 'limit', 'offset'] },
+        'GET:/spotify/artists': { method: 'GET', path: '/spotify/artists', params: ['time_range', 'limit', 'offset'] },
+        'GET:/spotify/wrapped/:year': { method: 'GET', path: '/spotify/wrapped/:year', params: ['year'] },
+        'GET:/steam/owned_games': { method: 'GET', path: '/steam/owned_games', params: [] },
+        'GET:/steam/current_game': { method: 'GET', path: '/steam/current_game', params: [] },
+        'GET:/letterboxd/recent': { method: 'GET', path: '/letterboxd/recent', params: [] },
+        'GET:/lastfm/recent_track': { method: 'GET', path: '/lastfm/recent_track', params: ['limit'] },
+        'GET:/lastfm/top_tracks': { method: 'GET', path: '/lastfm/top_tracks', params: ['limit', 'period'] },
+        'GET:/lastfm/top_artists': { method: 'GET', path: '/lastfm/top_artists', params: ['limit', 'period'] },
+        'GET:/lastfm/top_albums': { method: 'GET', path: '/lastfm/top_albums', params: ['limit', 'period'] },
+      };
 
-  <div class="section">
-    <h2>Letterboxd Service</h2>
-    <table>
-      <thead>
-        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>GET</td><td>/letterboxd/recent</td><td>Retrieve recent watch entries from Letterboxd.</td></tr>
-      </tbody>
-    </table>
-  </div>
+      const paramPlaceholders = {
+        time_range: 'short_term / medium_term / long_term',
+        limit: 'e.g. 10',
+        offset: 'e.g. 0',
+        period: '7day / 1month / 3month / 6month / 12month / overall',
+        year: 'e.g. 2023',
+      };
 
-  <footer class="note">Generated automatically – keep this file in sync with controller changes.</footer>
+      function renderParams() {
+        const key = endpointSelect.value;
+        const def = endpoints[key];
+        paramsContainer.innerHTML = '';
+
+        def.params.forEach(param => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'space-y-1';
+          wrapper.innerHTML = `
+            <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">${param}</label>
+            <input type="text" name="${param}" placeholder="${paramPlaceholders[param] || ''}" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white">
+          `;
+          paramsContainer.appendChild(wrapper);
+        });
+
+        if (def.params.length === 0) {
+          paramsContainer.innerHTML = `<p class="text-xs text-gray-400 italic">No parameters</p>`;
+        }
+      }
+
+      function buildUrl(def) {
+        let path = def.path;
+        // Replace path params like :year
+        path = path.replace(/:(\w+)/g, (_, name) => {
+          const input = paramsContainer.querySelector(`input[name="${name}"]`);
+          return input ? input.value : '';
+        });
+
+        const url = new URL(path, window.location.origin);
+        // Append query params
+        paramsContainer.querySelectorAll('input').forEach(input => {
+          if (input.value.trim()) {
+            url.searchParams.append(input.name, input.value.trim());
+          }
+        });
+        return url.toString();
+      }
+
+      async function tryRequest() {
+        const key = endpointSelect.value;
+        const def = endpoints[key];
+        const url = buildUrl(def);
+
+        tryBtn.disabled = true;
+        tryBtn.textContent = 'Sending…';
+        statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500';
+        statusBadge.textContent = '—';
+        responsePre.textContent = 'Loading…';
+
+        try {
+          const init = { method: def.method };
+          if (def.method === 'POST') {
+            init.headers = { 'Content-Type': 'application/json' };
+            init.body = JSON.stringify({ message: 'Try it out test' });
+          }
+
+          const res = await fetch(url, init);
+          const text = await res.text();
+
+          statusBadge.textContent = res.status;
+          if (res.status >= 200 && res.status < 300) {
+            statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700';
+          } else if (res.status >= 400) {
+            statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700';
+          } else {
+            statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-700';
+          }
+
+          // Try to pretty-print JSON
+          let formatted = text;
+          try {
+            formatted = JSON.stringify(JSON.parse(text), null, 2);
+          } catch (_) {
+            // Not JSON, keep raw
+          }
+          responsePre.textContent = formatted;
+        } catch (err) {
+          statusBadge.textContent = 'ERR';
+          statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700';
+          responsePre.textContent = `Request failed: ${err.message}`;
+        } finally {
+          tryBtn.disabled = false;
+          tryBtn.textContent = 'Try it out';
+        }
+      }
+
+      clearBtn.addEventListener('click', () => {
+        responsePre.textContent = 'Select an endpoint and click "Try it out".';
+        statusBadge.textContent = '—';
+        statusBadge.className = 'px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500';
+        paramsContainer.querySelectorAll('input').forEach(input => (input.value = ''));
+      });
+
+      endpointSelect.addEventListener('change', renderParams);
+      tryBtn.addEventListener('click', tryRequest);
+
+      // Scroll-spy: highlight the sidebar link for the section in view
+      const observerOptions = { root: null, rootMargin: '-100px 0% -70%', threshold: 0 };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+              const active = link.dataset.target === entry.target.id;
+              link.classList.toggle('bg-indigo-50', active);
+              link.classList.toggle('text-indigo-600', active);
+              link.classList.toggle('text-gray-700', !active);
+              link.classList.toggle('hover:bg-gray-50', !active);
+              link.classList.toggle('hover:text-gray-900', !active);
+            });
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+
+      // Smooth scroll for sidebar links
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(link.dataset.target);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Initialize
+      renderParams();
+    })();
+  </script>
+
 </body>
 </html>
