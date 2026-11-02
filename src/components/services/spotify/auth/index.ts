@@ -38,8 +38,7 @@ export class SpotifyAuthService {
         const newAccessToken = await this.requestAccessToken();
 
         if (!newAccessToken || newAccessToken.status !== 200) {
-            console.error("[SpotifyAuthService][createToken][ERROR]: No access token created on refreshToken.");
-            throw new Error('CREATE_TOKEN_NO_TOKEN_ERROR')
+            console.warn("[SpotifyAuthService][createToken][ERROR]: No access token created on refreshToken.");
         } else {
             console.log("[SpotifyAuthService][createToken][SUCCESS]: New access token created upon server initialization.");
         }

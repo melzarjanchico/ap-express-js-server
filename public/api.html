@@ -10,6 +10,44 @@
     body { font-family: 'Inter', sans-serif; }
     .mono { font-family: 'JetBrains Mono', monospace; }
     .endpoint-card:hover { transform: translateY(-2px); }
+
+    /* Below the md breakpoint, collapse each table row into a labelled stack
+       so the fixed column widths can no longer overflow the card. */
+    @media (max-width: 767px) {
+      .api-table thead { display: none; }
+      .api-table,
+      .api-table tbody,
+      .api-table tr,
+      .api-table td { display: block; width: 100%; }
+
+      .api-table tbody tr { padding: 0.75rem 0; }
+      .api-table tbody tr:first-child { padding-top: 0; }
+      .api-table tbody tr:last-child { padding-bottom: 0; }
+
+      .api-table td {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.1rem 0;
+        overflow-wrap: break-word;
+      }
+
+      .api-table td::before {
+        flex: 0 0 5.25rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        white-space: nowrap;
+      }
+
+      .api-table td:nth-child(1)::before { content: 'Method'; }
+      .api-table td:nth-child(2)::before { content: 'Path'; }
+      .api-table td:nth-child(3)::before { content: 'Query'; }
+      .api-table td:nth-child(4)::before { content: 'Description'; }
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -24,9 +62,9 @@
           </div>
           <span class="font-bold text-xl tracking-tight text-gray-900">Melzar API</span>
         </div>
-        <div class="flex items-center gap-4">
-          <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Base URL</a>
-          <span class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-xs font-medium leading-4 text-gray-700 bg-gray-100 border border-gray-200 mono">
+        <div class="flex items-center gap-4 min-w-0">
+          <a href="#" class="hidden sm:inline text-sm font-medium text-indigo-600 hover:text-indigo-500">Base URL</a>
+          <span class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-xs font-medium leading-4 text-gray-700 bg-gray-100 border border-gray-200 mono truncate max-w-[11rem] sm:max-w-none">
             https://melzar-api.vercel.app
           </span>
         </div>
@@ -66,12 +104,12 @@
             Core Endpoints
           </h2>
           <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <table class="w-full text-left text-sm text-gray-600">
+            <table class="api-table w-full text-left text-sm text-gray-600">
               <thead>
                 <tr class="border-b border-gray-100">
-                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
                   <th class="pb-3 font-semibold text-gray-900">Description</th>
                 </tr>
               </thead>
@@ -100,12 +138,12 @@
             Spotify Service
           </h2>
           <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <table class="w-full text-left text-sm text-gray-600">
+            <table class="api-table w-full text-left text-sm text-gray-600">
               <thead>
                 <tr class="border-b border-gray-100">
-                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
                   <th class="pb-3 font-semibold text-gray-900">Description</th>
                 </tr>
               </thead>
@@ -152,12 +190,12 @@
             Steam Service
           </h2>
           <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <table class="w-full text-left text-sm text-gray-600">
+            <table class="api-table w-full text-left text-sm text-gray-600">
               <thead>
                 <tr class="border-b border-gray-100">
-                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
                   <th class="pb-3 font-semibold text-gray-900">Description</th>
                 </tr>
               </thead>
@@ -186,12 +224,12 @@
             Letterboxd Service
           </h2>
           <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <table class="w-full text-left text-sm text-gray-600">
+            <table class="api-table w-full text-left text-sm text-gray-600">
               <thead>
                 <tr class="border-b border-gray-100">
-                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
                   <th class="pb-3 font-semibold text-gray-900">Description</th>
                 </tr>
               </thead>
@@ -214,12 +252,12 @@
             Last.fm Service
           </h2>
           <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <table class="w-full text-left text-sm text-gray-600">
+            <table class="api-table w-full text-left text-sm text-gray-600">
               <thead>
                 <tr class="border-b border-gray-100">
-                  <th class="pb-3 font-semibold text-gray-900 w-16">Method</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-48">Path</th>
-                  <th class="pb-3 font-semibold text-gray-900 w-32">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
                   <th class="pb-3 font-semibold text-gray-900">Description</th>
                 </tr>
               </thead>
