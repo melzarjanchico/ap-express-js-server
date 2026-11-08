@@ -1,0 +1,25 @@
+name: Keep Upstash Redis active
+
+# Hit GET /vscode/presence once a day so the presence service performs a Redis
+# read (getPresence()), keeping the Upstash database from going idle.
+on:
+  schedule:
+    - cron: '0 6 * * *'   # every day at 06:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  ping-presence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping /vscode/presence to keep Redis active
+        run: |
+          echo "Pinging https://melzar-api.vercel.app/vscode/presence ..."
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 30 \
+            https://melzar-api.vercel.app/vscode/presence)
+          echo "HTTP status: $http_code"
+          if [ "$http_code" != "200" ]; then
+            echo "Request did not return 200"
+            exit 1
+          fi
