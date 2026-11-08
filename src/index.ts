@@ -12,6 +12,8 @@ import LetterboxdController from './components/controllers/letterboxd';
 import SteamController from './components/controllers/steam';
 import LastfmController from './components/controllers/lastfm';
 import { VercelService } from './components/services/vercel';
+import { VSCodePresenceService } from './components/services/vscode';
+import VSCodeController from './components/controllers/vscode';
 
 const main = async () => {
 
@@ -52,6 +54,7 @@ const main = async () => {
   const steamService = new SteamService();
   const letterboxdService = new LetterboxdService();
   const lastfmService = new LastfmService();
+  const vscodeService = new VSCodePresenceService();
 
   // Instantiate and mount controllers
   const mainController = new MainController();
@@ -59,12 +62,14 @@ const main = async () => {
   const steamController = new SteamController(steamService);
   const letterboxdController = new LetterboxdController(letterboxdService);
   const lastfmController = new LastfmController(lastfmService);
+  const vscodeController = new VSCodeController(vscodeService);
 
   app.use('/', mainController.router);
   app.use('/spotify', spotifyController.router);
   app.use('/steam', steamController.router);
   app.use('/letterboxd', letterboxdController.router);
   app.use('/lastfm', lastfmController.router);
+  app.use('/vscode', vscodeController.router);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

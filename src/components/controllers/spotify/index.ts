@@ -1,10 +1,11 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import { SpotifyMainService } from '../../services/spotify/main';
 import { WrappedPlaylists } from '../../../data/wrapped';
 import { spotifyErrorHandler } from '../../services/spotify/error';
 import { SpotifyAuthService } from '../../services/spotify/auth';
 import { VercelService } from '../../services/vercel';
-import { AccessTokenResponse, AccessTokenSuccess } from '../../services/spotify/auth/models';
+import { AccessTokenSuccess } from '../../services/spotify/auth/models';
+import { protectRenewEndpoint } from '../../middlewares/spotify';
 
 export default class SpotifyController {
   public router: Router;
@@ -33,7 +34,7 @@ export default class SpotifyController {
   private initializeRoutes(): void {
     // Auth
     this.router.get('/renew/callback', this.renewRefreshTokenCallback.bind(this));
-    this.router.get('/renew', this.protectRenewEndpoint.bind(this), this.renewRefreshToken.bind(this));
+    this.router.get('/renew', protectRenewEndpoint.bind(this), this.renewRefreshToken.bind(this));
 
     // Main
     this.router.get('/user', this.getUser.bind(this));
@@ -110,31 +111,5 @@ export default class SpotifyController {
       }
 
       return res.redirect(process.env.SPOTIFY_CLIENT_URL || "http://127.0.0.1:3000");
-  }
-
-  private protectRenewEndpoint(
-      req: Request,
-      res: Response,
-      next: NextFunction
-  ) {
-      const auth = req.headers.authorization;
-
-      if (!auth || !auth.startsWith('Basic ')) {
-          res.setHeader('WWW-Authenticate', 'Basic realm="Spotify Renewal"');
-          return res.status(401).send('Authentication required.');
-      }
-
-      const credentials = Buffer.from(auth.slice(6), 'base64').toString('utf-8');
-      const [username, password] = credentials.split(':');
-
-      if (
-          username !== process.env.SPOTIFY_RENEW_USERNAME ||
-          password !== process.env.SPOTIFY_RENEW_PASSWORD
-      ) {
-          res.setHeader('WWW-Authenticate', 'Basic realm="Spotify Renewal"');
-          return res.status(401).send('Invalid credentials.');
-      }
-
-      next();
   }
 }
