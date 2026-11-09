@@ -59,6 +59,13 @@ LETTERBOXD_RSS_URL=https://letterboxd.com/your_username/rss/
 LASTFM_USERNAME=your_lastfm_username
 LASTFM_API_KEY=your_lastfm_api_key
 
+# Redis / Upstash (used by VS Code presence storage)
+KV_REST_API_URL=your_upstash_rest_api_url
+KV_REST_API_TOKEN=your_upstash_rest_api_token
+
+# VS Code Presence (API token protecting POST /vscode/presence)
+VSCODE_PRESENCE_API_TOKEN=your_vscode_presence_api_token
+
 # Vercel (used to rotate the Spotify refresh token automatically)
 VERCEL_TOKEN=your_vercel_token
 VERCEL_PROJECT_ID=your_vercel_project_id
@@ -106,6 +113,7 @@ All endpoints are mounted under the base URL `http://localhost:3000` (or `https:
 | **Steam** | `/steam` | `GET /owned_games` – List games owned by the user.<br>`GET /current_game` – Currently played game. |
 | **Letterboxd** | `/letterboxd` | `GET /recent` – Recent watch entries (parsed from the RSS feed). |
 | **Last.fm** | `/lastfm` | `GET /recent_track` – Most recent scrobble (query: `limit`).<br>`GET /top_tracks` – Top tracks (query: `limit`, `period`).<br>`GET /top_artists` – Top artists (query: `limit`, `period`).<br>`GET /top_albums` – Top albums (query: `limit`, `period`). |
+| **VS Code** | `/vscode` | `GET /presence` – Latest VS Code presence (status, project, workspace, file, language). Returns `offline` when none set. |
 
 For a quick visual reference, open `http://localhost:3000/` – the HTML page (`public/api.html`) contains the same tables plus an interactive request tester.
 
@@ -125,7 +133,11 @@ Spotify refresh tokens can expire. `GET /spotify/renew` (protected by HTTP Basic
 │  │  │   ├─ spotify/          # Spotify controller (incl. /renew flow)
 │  │  │   ├─ steam/            # Steam controller
 │  │  │   ├─ letterboxd/       # Letterboxd controller
-│  │  │   └─ lastfm/           # Last.fm controller
+│  │  │   ├─ lastfm/           # Last.fm controller
+│  │  │   └─ vscode/           # VS Code presence controller
+│  │  ├─ middlewares/          # Route-level authorization middleware
+│  │  │   ├─ spotify/          # Spotify /renew basic-auth middleware
+│  │  │   └─ vscode/           # VS Code presence bearer-token middleware
 │  │  └─ services/             # Business logic & API clients
 │  │      ├─ spotify/
 │  │      │   ├─ auth/         # OAuth token handling
@@ -133,7 +145,8 @@ Spotify refresh tokens can expire. `GET /spotify/renew` (protected by HTTP Basic
 │  │      ├─ steam/
 │  │      ├─ letterboxd/
 │  │      ├─ lastfm/
-│  │      └─ vercel/           # Env-var updates & deploy hooks
+│  │      ├─ vercel/           # Env-var updates & deploy hooks
+│  │      └─ vscode/           # VS Code presence storage (Redis/Upstash)
 │  ├─ data/
 │  │   └─ wrapped.ts           # Spotify Wrapped playlist URLs by year
 │  ├─ models/                  # TypeScript types / shared utilities
