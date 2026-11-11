@@ -43,7 +43,8 @@ export default class VSCodeController {
                 typeof presence.file !== 'string' ||
                 typeof presence.language !== 'string' ||
                 !validStatuses.includes(presence.status) ||
-                !Number.isSafeInteger(presence.startedAt) ||
+                !Number.isSafeInteger(presence.startedAtFile) ||
+                !Number.isSafeInteger(presence.startedAtProject) ||
                 !Number.isSafeInteger(presence.lastActivity)
             ) {
                 res.status(400).json({
@@ -60,7 +61,8 @@ export default class VSCodeController {
                 file: presence.file.slice(0, 500),
                 language: presence.language.slice(0, 50),
                 status: presence.status,
-                startedAt: presence.startedAt,
+                startedAtFile: presence.startedAtFile,
+                startedAtProject: presence.startedAtProject,
                 lastActivity: presence.lastActivity,
                 updatedAt: Date.now()
             };

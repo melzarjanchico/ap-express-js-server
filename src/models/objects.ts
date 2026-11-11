@@ -118,7 +118,8 @@ export interface VSCodePresence {
     file: string;                   // Current file relative to the workspace.
     language: string;               // Language identifier (e.g. typescript).
     status: VSCodePresenceStatus;   // Current activity.
-    startedAt: number;              // Timestamp when the current coding session started.
+    startedAtFile: number;          // Timestamp when the current file was opened.
+    startedAtProject: number;       // Timestamp when the current project was opened.
     lastActivity: number;           // Last detected editor activity.
     updatedAt: number;              // Last heartbeat timestamp.
 }
