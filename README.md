@@ -113,7 +113,7 @@ All endpoints are mounted under the base URL `http://localhost:3000` (or `https:
 | **Steam** | `/steam` | `GET /owned_games` – List games owned by the user.<br>`GET /current_game` – Currently played game. |
 | **Letterboxd** | `/letterboxd` | `GET /recent` – Recent watch entries (parsed from the RSS feed). |
 | **Last.fm** | `/lastfm` | `GET /recent_track` – Most recent scrobble (query: `limit`).<br>`GET /top_tracks` – Top tracks (query: `limit`, `period`).<br>`GET /top_artists` – Top artists (query: `limit`, `period`).<br>`GET /top_albums` – Top albums (query: `limit`, `period`). |
-| **VS Code** | `/vscode` | `GET /presence` – Latest VS Code presence (status, project, workspace, file, language). Returns `offline` when none set. |
+| **VS Code** | `/vscode` | `GET /presence` – Latest VS Code presence (status, project, workspace, file, language, logo). Returns `offline` when none set. |
 
 For a quick visual reference, open `http://localhost:3000/` – the HTML page (`public/api.html`) contains the same tables plus an interactive request tester.
 

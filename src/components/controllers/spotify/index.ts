@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { SpotifyMainService } from '../../services/spotify/main';
-import { WrappedPlaylists } from '../../../data/wrapped';
+import { WrappedPlaylists } from '../../../data/spotify/wrapped';
 import { spotifyErrorHandler } from '../../services/spotify/error';
 import { SpotifyAuthService } from '../../services/spotify/auth';
 import { VercelService } from '../../services/vercel';

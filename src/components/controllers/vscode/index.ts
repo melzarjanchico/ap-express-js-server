@@ -3,14 +3,17 @@ import { Router, Request, Response } from 'express';
 import { VSCodePresenceService } from '../../services/vscode';
 import { authenticateVSCode } from '../../middlewares/vscode';
 import { VSCodePresence } from '../../../models/objects';
+import { resolveFileIcon } from './helper';
 
 export default class VSCodeController {
 
     public router: Router;
+    private icrawlUrlImgLink: string;
 
     constructor(
         private presenceSvc: VSCodePresenceService
     ) {
+        this.icrawlUrlImgLink = 'https://raw.githubusercontent.com/iCrawl/discord-vscode/refs/heads/master/assets/icons/';
         this.router = Router();
         this.initializeRoutes();
     }
@@ -55,6 +58,8 @@ export default class VSCodeController {
                 return;
             }
 
+            const logoName = resolveFileIcon(presence.file, presence.language);
+
             const updatedPresence: VSCodePresence = {
                 project: presence.project.slice(0, 150),
                 workspace: presence.workspace.slice(0, 150),
@@ -64,7 +69,8 @@ export default class VSCodeController {
                 startedAtFile: presence.startedAtFile,
                 startedAtProject: presence.startedAtProject,
                 lastActivity: presence.lastActivity,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                logo: `${this.icrawlUrlImgLink}${logoName}.png`
             };
 
             await this.presenceSvc.updatePresence(updatedPresence);

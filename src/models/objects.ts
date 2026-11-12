@@ -122,4 +122,5 @@ export interface VSCodePresence {
     startedAtProject: number;       // Timestamp when the current project was opened.
     lastActivity: number;           // Last detected editor activity.
     updatedAt: number;              // Last heartbeat timestamp.
+    logo: string | undefined;       // URL of the active language's logo
 }
