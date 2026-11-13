@@ -11,6 +11,11 @@
     .mono { font-family: 'JetBrains Mono', monospace; }
     .endpoint-card:hover { transform: translateY(-2px); }
 
+    /* Offset anchor targets so the section heading lands below the sticky
+       header (h-16 = 4rem) instead of being hidden underneath it. Applies to
+       both native hash navigation and scrollIntoView. */
+    section[id] { scroll-margin-top: 6rem; }
+
     /* Below the md breakpoint, collapse each table row into a labelled stack
        so the fixed column widths can no longer overflow the card. */
     @media (max-width: 767px) {
@@ -86,6 +91,7 @@
               <li><a href="#steam" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="steam">Steam</a></li>
               <li><a href="#letterboxd" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="letterboxd">Letterboxd</a></li>
               <li><a href="#lastfm" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="lastfm">Last.fm</a></li>
+              <li><a href="#vscode" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="vscode">VS Code Presence</a></li>
               <li><a href="#try" class="sidebar-link block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" data-target="try">Try it out</a></li>
             </ul>
           </nav>
@@ -291,6 +297,34 @@
           </div>
         </section>
 
+        <!-- VS Code Presence -->
+        <section id="vscode" class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-mono text-sm">VS</span>
+            VS Code Presence Service
+          </h2>
+          <div class="endpoint-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <table class="api-table w-full text-left text-sm text-gray-600">
+              <thead>
+                <tr class="border-b border-gray-100">
+                  <th class="pb-3 font-semibold text-gray-900">Method</th>
+                  <th class="pb-3 font-semibold text-gray-900">Path</th>
+                  <th class="pb-3 font-semibold text-gray-900">Query Params</th>
+                  <th class="pb-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 mono font-medium text-indigo-600">GET</td>
+                  <td class="py-3 mono font-medium">/vscode/presence</td>
+                  <td class="py-3 mono text-gray-400">-</td>
+                  <td class="py-3">Retrieve the latest VS Code presence (status, project, workspace, file, language, logo). Returns status "offline" when no presence has been set.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <!-- Try it out -->
         <section id="try" class="mb-12">
           <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -316,6 +350,7 @@
                     <option value="GET:/lastfm/top_tracks">GET /lastfm/top_tracks</option>
                     <option value="GET:/lastfm/top_artists">GET /lastfm/top_artists</option>
                     <option value="GET:/lastfm/top_albums">GET /lastfm/top_albums</option>
+                    <option value="GET:/vscode/presence">GET /vscode/presence</option>
                   </select>
                 </div>
 
@@ -383,6 +418,7 @@
         'GET:/lastfm/top_tracks': { method: 'GET', path: '/lastfm/top_tracks', params: ['limit', 'period'] },
         'GET:/lastfm/top_artists': { method: 'GET', path: '/lastfm/top_artists', params: ['limit', 'period'] },
         'GET:/lastfm/top_albums': { method: 'GET', path: '/lastfm/top_albums', params: ['limit', 'period'] },
+        'GET:/vscode/presence': { method: 'GET', path: '/vscode/presence', params: [] },
       };
 
       const paramPlaceholders = {
@@ -488,25 +524,6 @@
 
       endpointSelect.addEventListener('change', renderParams);
       tryBtn.addEventListener('click', tryRequest);
-
-      // Scroll-spy: highlight the sidebar link for the section in view
-      const observerOptions = { root: null, rootMargin: '-100px 0% -70%', threshold: 0 };
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-              const active = link.dataset.target === entry.target.id;
-              link.classList.toggle('bg-indigo-50', active);
-              link.classList.toggle('text-indigo-600', active);
-              link.classList.toggle('text-gray-700', !active);
-              link.classList.toggle('hover:bg-gray-50', !active);
-              link.classList.toggle('hover:text-gray-900', !active);
-            });
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
 
       // Smooth scroll for sidebar links
       document.querySelectorAll('.sidebar-link').forEach(link => {

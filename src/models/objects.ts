@@ -109,3 +109,18 @@ export interface CurrentGame {
     status: string,
     game?: Game,
 }
+
+export type VSCodePresenceStatus = 'coding' | 'viewing' | 'idle';
+
+export interface VSCodePresence {
+    project: string;                // Project name displayed in your portfolio.
+    workspace: string;              // Workspace name.
+    file: string;                   // Current file relative to the workspace.
+    language: string;               // Language identifier (e.g. typescript).
+    status: VSCodePresenceStatus;   // Current activity.
+    startedAtFile: number;          // Timestamp when the current file was opened.
+    startedAtProject: number;       // Timestamp when the current project was opened.
+    lastActivity: number;           // Last detected editor activity.
+    updatedAt: number;              // Last heartbeat timestamp.
+    logo: string | undefined;       // URL of the active language's logo
+}
