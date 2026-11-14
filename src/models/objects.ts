@@ -91,6 +91,7 @@ export interface Game {
     playtimeMinutes: number;
     playtimeReadable: string;
     lastPlayed: string | null;
+    lastPlayedTimestamp: number;
 }
 
 export interface Film {

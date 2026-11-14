@@ -47,6 +47,7 @@ export class SteamService {
                         playtimeMinutes: minutes,
                         playtimeReadable: minutesToReadable(minutes),
                         lastPlayed: convertPlaytime(g.rtime_last_played),
+                        lastPlayedTimestamp: g.rtime_last_played ?? 0,
                         ...getSteamImages(g.appid, g.img_icon_url)
                     };
                 })
